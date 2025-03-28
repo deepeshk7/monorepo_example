@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for proper versioning
 
@@ -51,7 +51,7 @@ jobs:
         continue-on-error: true  # Continue even if web build fails
 
       - name: Upload Web Build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: web-build
           path: packages/web_app/build/web
@@ -63,7 +63,7 @@ jobs:
         continue-on-error: true  # Continue even if Android build fails
 
       - name: Upload Android APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-apk
           path: packages/mobile_app/build/app/outputs/flutter-apk/app-release.apk
