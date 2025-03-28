@@ -1,0 +1,121 @@
+name: Flutter Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  setup:
+    name: Setup Environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.2'  # Using your specific Flutter version
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Melos
+        run: |
+          dart pub global activate melos
+          melos bootstrap
+
+      - name: Analyze and lint
+        run: melos run analyze
+
+  build_web:
+    name: Build Web App
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.2'
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Melos
+        run: |
+          dart pub global activate melos
+          melos bootstrap
+
+      - name: Build Web
+        run: melos run build:web
+
+      - name: Upload Web Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-build
+          path: packages/web_app/build/web
+          retention-days: 7
+
+  build_android:
+    name: Build Android App
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.29.2'
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Melos
+        run: |
+          dart pub global activate melos
+          melos bootstrap
+
+      - name: Build Android APK
+        run: melos run build:apk
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-apk
+          path: packages/mobile_app/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 7
+
+  build_ios:
+    name: Build iOS App
+    needs: setup
+    runs-on: macos-latest  # iOS builds require macOS runner
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Setup Melos
+        run: |
+          dart pub global activate melos
+          melos bootstrap
+
+      - name: Build iOS (no codesign)
+        run: melos run build:ios
+
+      - name: Upload iOS Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-build
+          path: packages/mobile_app/build/ios/iphoneos
+          retention-days: 7
