@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/common_functions/melos_common_functions.iml" filepath="$PROJECT_DIR$/packages/common_functions/melos_common_functions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/mobile_app/melos_mobile_app.iml" filepath="$PROJECT_DIR$/packages/mobile_app/melos_mobile_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/web_app/melos_web_app.iml" filepath="$PROJECT_DIR$/packages/web_app/melos_web_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_monorepo_example.iml" filepath="$PROJECT_DIR$/melos_monorepo_example.iml" />
+    </modules>
+  </component>
+</project>

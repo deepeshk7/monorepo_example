@@ -1,0 +1,73 @@
+# melos.yaml
+name: monorepo_example
+repository: https://github.com/username/monorepo_example
+
+packages:
+  - packages/**
+
+scripts:
+  # Development scripts
+  analyze:
+    description: Run Flutter analyze for all packages
+    run: |
+      melos exec -c 1 -- "flutter analyze"
+
+  format:
+    description: Format code with Flutter format
+    run: |
+      melos exec -c 1 -- "flutter format ."
+
+  clean:
+    description: Clean all build directories
+    run: |
+      melos exec -c 1 -- "flutter clean"
+
+  # Testing scripts
+  test:
+    description: Run tests for all packages
+    run: |
+      melos exec -c 1 --dir-exists="test" -- "flutter test"
+
+  # Build scripts for web_app
+  build:web:
+    description: Build web app
+    run: |
+      cd packages/web_app && flutter build web --release
+
+  # Build scripts for mobile_app
+  build:apk:
+    description: Build Android APK
+    run: |
+      cd packages/mobile_app && flutter build apk --release
+
+  build:appbundle:
+    description: Build Android APPBUNDLE
+    run: |
+      cd packages/mobile_app && flutter build appbundle --release    
+
+  build:ios:
+    description: Build iOS app
+    run: |
+      cd packages/mobile_app && flutter build ios --release --no-codesign
+
+  build:all:
+    description: Build all platforms
+    run: |
+      melos run build:web && melos run build:apk && melos run build:ios
+      
+      
+
+#
+#      # For web build
+#      melos run build:web
+#
+#      # For Android APK
+#      melos run build:apk
+#      # For Android APPBUNDLE
+#      melos run build:appbundle
+#
+#      # For iOS
+#      melos run build:ios
+#
+#      # For all platforms at once
+#      melos run build:all
